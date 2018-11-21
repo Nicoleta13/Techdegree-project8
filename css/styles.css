@@ -1,0 +1,19 @@
+* {
+  box-sizing: border-box;
+}
+
+
+body {
+  background-color: white;
+  margin: 0 auto;
+}
+
+.container {
+  background-color: #EBEFF0;
+  height: 80vh;
+  width: 85vw;
+}
+
+.container h5 {
+  text-transform: uppercase;
+}
