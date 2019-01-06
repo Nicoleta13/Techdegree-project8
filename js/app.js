@@ -1,69 +1,154 @@
-$.ajax({
-  url: 'https://randomuser.me/api/?inc=picture,name,email,location',
-  dataType: 'json',
-  success: function(data) {
-    console.log(data);
-  }
- {
-  "results": [
-    {
-      "gender": "male",
-      "name": {
-        "title": "mr",
-        "first": "rolf",
-        "last": "hegdal"
-      },
-      "location": {
-        "street": "ljan terrasse 346",
-        "city": "vear",
-        "state": "rogaland",
-        "postcode": "3095",
-        "coordinates": {
-          "latitude": "54.8646",
-          "longitude": "-97.3136"
-        },
-        "timezone": {
-          "offset": "-10:00",
-          "description": "Hawaii"
+    const search = document.querySelector('search');
+    const photos = document.getElementById('photos');
+    const imageContainer = document.querySelector('image-container');
+
+
+
+    // ------------------------------------------
+    //  FETCH FUNCTIONS
+    // ------------------------------------------
+        //Make a fetch request
+        fetch("https://randomuser.me/api/?results=12&nat=us")
+          .then(checkStatus)
+          .then(response => response.json())
+          .then(data => generateImage(data.results))
+          .catch(error => alert('Looks like there is a problem!'));
+
+    // function capitalize(item) {
+    //     return item.slice(0,1).toUpperCase()+item.slice(1);
+    // }
+
+      function checkStatus(response) {
+        if(response.ok) {
+          return Promise.resolve(response);
+        } else {
+          return Promise.reject(new Error(response.statusText));
         }
-      },
-      "email": "rolf.hegdal@example.com",
-      "login": {
-        "uuid": "c4168eac-84b8-46ea-b735-c9da9bfb97fd",
-        "username": "bluefrog786",
-        "password": "ingrid",
-        "salt": "GtRFz4NE",
-        "md5": "5c581c5748fc8c35bd7f16eac9efbb55",
-        "sha1": "c3feb8887abed9ec1561b9aa2c9f58de21d1d3d9",
-        "sha256": "684c478a98b43f1ef1703b35b8bbf61b27dbc93d52acd515e141e97e04447712"
-      },
-      "dob": {
-        "date": "1975-11-12T06:34:44Z",
-        "age": 42
-      },
-      "registered": {
-        "date": "2015-11-04T22:09:36Z",
-        "age": 2
-      },
-      "phone": "66976498",
-      "cell": "40652479",
-      "id": {
-        "name": "FN",
-        "value": "12117533881"
-      },
-      "picture": {
-        "large": "https://randomuser.me/api/portraits/men/65.jpg",
-        "medium": "https://randomuser.me/api/portraits/med/men/65.jpg",
-        "thumbnail": "https://randomuser.me/api/portraits/thumb/men/65.jpg"
-      },
-      "nat": "NO"
-    }
-  ],
-  "info": {
-    "seed": "2da87e9305069f1d",
-    "results": 1,
-    "page": 1,
-    "version": "1.2"
-  }
+      }
+
+      function generateImage(data, index) {
+        //create the mark up for images using interpolation
+        // ${data} will be the url returned from the API
+        const html = data
+          .map(employee => `
+            <div id="${index}"class="image-container">
+              <div class="delimitation">
+                  <img class="large-img" src=${employee.picture.large} alt=${employee.name.first}>
+              </div>
+              <div class="employee-info">
+                <span class="name">${employee.name.first} ${employee.name.last} </span><br>
+                <span class="email">${employee.email}</span><br>
+                <span class="city">${employee.location.city}</span>
+              </div>
+            </div>`).join("");
+          photos.innerHTML = html;
+          addId();
+      }
+      function addId() {
+        for(i = 0; i < photos.length; i++) {
+          photos[i].setAttribute("id", i);
+        } }
+
+      // get the modal popup
+
+    // When the user clicks on <span> (x), close the modal
+      // span.onclick = function() {
+      //   modal.style.display = "none";
+      // };
+
+      function generateModalPopup(data) {
+        let idVal = imageContainer.getAttribute('id');
+        if(idVal < 0 && idVal >= 11) {
+          return;
+        }
+
+        // const modalBox = data
+        // .map()`
+        //     <div class="popup-modal" style="display: none">
+        //       <div class="modal-img">
+        //         <img class="large-img" src=${employee.picture.large} alt=${employee.name.first}>
+        //       </div>
+        //       <div class="employee-info">
+        //         <span class="name">${employee.name.first} ${employee.name.last} </span><br>
+        //         <span class="email">${employee.email}</span><br>
+        //         <span class="city">${employee.location.city}</span>
+        //       </div><hr>
+        //       <div class="extra-info">
+        //         <span>${employee.cell}<span><br>
+        //         <span>${employee.location.street} ${employee.location.city} ${employee.location.state} ${employee.location.postcode}</span><br.
+        //         <span>Birthday: ${new Date(Date.parse(employee.dob.date)).toLocaleDateString(navigator.language)}</span>
+        //       </div>
+        //     </div>`;
+        //   overlay-modal.innerHTML = modalBox;
+      }
+
+
+
+    // ------------------------------------------
+    //  EVENT LISTENERS
+    // ------------------------------------------
+
+    function popupEmployeeData(employees) {
+    employees.forEach((employee) => {
+        let card = document.getElementById(employee.id);
+        card.addEventListener("click", event => employee.generateEmployeeModal());
+    });
 }
-});
+
+  // for(i = 0; i<employees.length; i++) {
+  //   let index = employees[i];
+  // }
+
+
+    // imageContainer.addEventListener('click', => function(employee-data) {
+    //   generateModalPopup();
+    //   overlay-modal.style.display = "block";
+    //   popup-modal.style.display = "block";
+    //
+    // });
+
+
+    // ------------------------------------------
+    //  SEARCH
+    // ------------------------------------------
+
+
+        //search bar
+
+    // $('.search').keyup(function() {
+    //   var srchInput = $('.search').val();
+    //   var regex = new RegExp('(?=[^\\s])' + srchInput, 'gi');
+    //   var sorted = '';
+    //   var results = [],
+    //   sortedResultNames = [];
+    //   $.getJSON('data.json', function(data) {
+    //     $.each(data, function(key, val) { // index, obj
+    //       if (val.name.search(regex) != -1) {
+    //         results.push(val);
+    //         sortedResultNames.push(val.name);
+    //       } else {
+    //         $.each(val.keywords, function(i, keyword) {
+    //           if (keyword.search(regex) != -1) {
+    //             results.push(val);
+    //             sortedResultNames.push(val.name);
+    //             return false;
+    //           }
+    //         });
+    //       }
+    //     });
+    //     sortedResultNames = sortedResultNames.sort();
+    //     $.each(sortedResultNames, function(i, nameVal) {
+    //       $.each(results, function(key, val) {
+    //         if (val.name == nameVal) {
+    //           sorted += '<li><h2><a href="' + val.web + '">' +
+    //                     val.name + '</a></h2>';
+    //           sorted += '<p>' + val.description + '</p></li>';
+    //         }
+    //       });
+    //     });
+    //     $('.results').html(sorted);
+    //   });
+    // });
+    // document.getElementById('home').addEventListener('click', function() {
+    //   window.location.href = 'index.html';
+    // });
