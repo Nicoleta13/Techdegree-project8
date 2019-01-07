@@ -18,7 +18,8 @@ body {
   text-transform: uppercase;
 }
 
-.grid {
+.grid,
+.popup-modal {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -56,7 +57,9 @@ body {
 }
 
 .name,
-.city {
+.city,
+.address,
+.birthday {
   text-transform: capitalize;
 }
 
@@ -85,8 +88,61 @@ body {
 
 /*MODAL  */
 .overlay-modal {
-  /* display: none; */
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  background-color: rgba(255, 255, 255, 0.9);
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.95;
+  display: none;
 }
+
+.popup-modal {
+  position: absolute;
+  top: 10%;
+  left: 40%;
+  width: 400px;
+  height: 500px;
+  z-index: 10000;
+  text-align: center;
+  line-height: 0;
+  font-weight: normal;
+}
+.nav {
+  display: block;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 5vw;
+  right: -70vw;
+}
+
+.prev,
+.next {
+  padding: 0;
+  position: absolute;
+  top: 30vw;;
+}
+
+.prev {
+  left: 10vw;
+}
+
+.next {
+  right: -85vw;
+}
+
+.closeBtn:hover,
+.prev:hover,
+.next:hover {
+  border-radius: 30%;
+  background-color: red;
+  cursor: pointer;
+}
+
+
 
 
 /*Media Queries  */
