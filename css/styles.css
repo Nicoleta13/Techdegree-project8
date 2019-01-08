@@ -18,13 +18,13 @@ body {
   text-transform: uppercase;
 }
 
-.grid,
-.popup-modal {
+.grid {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   flex: 1 auto;
 }
+
 
 
 
@@ -41,7 +41,8 @@ body {
   padding: 10px 5px;
 }
 
-.large-img {
+.large-img ,
+.picture {
   border-radius: 50%;
 }
 
@@ -89,56 +90,74 @@ body {
 /*MODAL  */
 .overlay-modal {
   position: absolute;
-  top: 0;
-  left: 0;
   z-index: 9999;
-  background-color: rgba(255, 255, 255, 0.9);
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
-  opacity: 0.95;
+  top: 10vw;
+  left: 10vw;
+  background-color: rgba(255, 255, 255);
   display: none;
 }
 
 .popup-modal {
   position: absolute;
-  top: 10%;
-  left: 40%;
-  width: 400px;
-  height: 500px;
   z-index: 10000;
+  background-color: white;
+  margin: 0 auto;
+  height: 400px;
   text-align: center;
-  line-height: 0;
   font-weight: normal;
+  border-radius: 5px;
+  border: 5px solid lightblue;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
+
+
+
+.employee-card,
+.extra-info {
+  font-size: 1em;
+  line-height: 2;
+}
+
 .nav {
   display: block;
+}
+.picture {
+  width: 35%;
+  margin: 0 auto;
+}
+
+hr {
+  width: 300px;
+  margin: 0;
+
 }
 
 .closeBtn {
   position: absolute;
-  top: 5vw;
-  right: -70vw;
+  top: 1vw;
+  right: 1vw;
 }
 
 .prev,
 .next {
-  padding: 0;
   position: absolute;
-  top: 30vw;;
+  top: 37vw;
 }
 
 .prev {
-  left: 10vw;
+  left: -5vw;
 }
 
 .next {
-  right: -85vw;
+  right: -5vw;
 }
 
 .closeBtn:hover,
 .prev:hover,
 .next:hover {
-  border-radius: 30%;
-  background-color: red;
   cursor: pointer;
 }
 
