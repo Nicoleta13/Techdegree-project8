@@ -1,9 +1,8 @@
 const photos    = document.getElementById('photos');
 const overlay   = document.querySelector('.overlay-modal');
-const prev      = document.querySelector('.prev');
-const next      = document.querySelector('.next');
 
 let employeeById;
+let employeeId;
 
 
 
@@ -61,22 +60,17 @@ function generateImage(data) {
   // **** Changed "employeeById" variable to select ALL of your user cards by the `.image-container` class.
   // **** Currently set to target the first [0] card/index only, you will need to build a "for" or "forEach" loop to add the eventListener to all of them.
 
-  // let employeeById = document.querySelectorAll('.image-container');
-  //   employeeById[0].addEventListener('click', () => {
-  //     overlay.style.display = "block";
-  //     // **** passes api array to modal, and employee index position (currently manually set to index position 0, replace with what you use with your for or forEach iteration counter)
-  //     generateModalPopup(data, 0);
-  //   });
-  // }
-
-  let employeeById = document.querySelectorAll('.image-container');
-  for(i = 0; i < employeeById.length; i++) {
+  employeeById = document.querySelectorAll('.image-container');
+  for( let i = 0; i < employeeById.length; i++) {
     employeeById[i].addEventListener('click', () => {
+
       overlay.style.display = "block";
+      $(employeeById[i]).addClass('selected');
       // **** passes api array to modal, and employee index position (currently manually set to index position 0, replace with what you use with your for or forEach iteration counter)
       generateModalPopup(data, i);
     });
   }
+
 }
 
 
@@ -87,8 +81,8 @@ function generateModalPopup(data, index) {
     <div class="popup-modal">
       <div class="nav">
         <img class="closeBtn" src="icons/close.png">
-        <img class="prev" src="icons/prev.png" onclick="mySlide('prev');">
-        <img class="next" src="icons/next.png"  onclick="mySlide('next');">
+        <img class="prev" src="icons/prev.png">
+        <img class="next" src="icons/next.png">
       </div>
       <img class="picture" src=${employee.picture.large} alt=${employee.name.first}>
       <div class="employee-card">
@@ -107,26 +101,23 @@ function generateModalPopup(data, index) {
   const closeBtn = document.querySelector('.closeBtn');
   closeBtn.addEventListener('click', () => {
     overlay.style.display = "none";
-  });
+    $(employeeById).removeClass('selected');
+      });
 
-}
+// Next prev buttons
+   $('.next').click(function(){
+     var next_card = $(".image-container:visible").next(".image-container");
+     if(next_card.length != 0){
+         $(".image-container").hide();
+         next_card.show();
+     }
+ });
 
-
-  // NEXT PREVIOUS BUTTONS
-
-
-function mySlide(param) {
-  let i = 0;
-  if(param === 'next') {
-    i++;
-    if(i === photos.length) {
-      i = photos.length - 1;
-    } else {
-      i--;
-      if(i < 0) {
-        i = 0;
-    }
-  }
-  document.getElementById('id').id = photos[i];
-}
+ $(".prev").click(function(){
+     var prev_card = $(".image-container:visible").prev(".image-container");
+     if(prev_card.length != 0){
+         $(".image-container").hide();
+         prev_card.show();
+     }
+ });
 }
