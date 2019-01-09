@@ -2,14 +2,8 @@ const photos    = document.getElementById('photos');
 const overlay   = document.querySelector('.overlay-modal');
 
 let employeeById;
-let employeeId;
 
 
-
-
-// ------------------------------------------
-//  FETCH FUNCTIONS
-// ------------------------------------------
 //Make a fetch request
 fetch("https://randomuser.me/api/?results=12&nat=us")
   .then(checkStatus)
@@ -17,9 +11,6 @@ fetch("https://randomuser.me/api/?results=12&nat=us")
   .then(data        => generateImage(data.results))
   .catch(error      => alert('Looks like there is a problem!'));
 
-// function capitalize(item) {
-//     return item.slice(0,1).toUpperCase()+item.slice(1);
-// }
 
 function checkStatus(response) {
   if(response.ok) {
@@ -56,9 +47,6 @@ function generateImage(data) {
       </div>`).join("");
   photos.innerHTML = html;
   addId();
-  // **** Moved this code block due to the 'image-container' class being dynamically added by your template literal above
-  // **** Changed "employeeById" variable to select ALL of your user cards by the `.image-container` class.
-  // **** Currently set to target the first [0] card/index only, you will need to build a "for" or "forEach" loop to add the eventListener to all of them.
 
   employeeById = document.querySelectorAll('.image-container');
   for( let i = 0; i < employeeById.length; i++) {
@@ -70,13 +58,10 @@ function generateImage(data) {
       generateModalPopup(data, i);
     });
   }
-
 }
-
 
 function generateModalPopup(data, index) {
   let employee = data[index];
-  // **** Added correctly data to be interpolated to build the modal user info
   let modalBox = `
     <div class="popup-modal">
       <div class="nav">
@@ -97,27 +82,37 @@ function generateModalPopup(data, index) {
       </div>
     </div>`;
   overlay.innerHTML = modalBox;
-  // **** Moved this code block here due to the 'closeBtn' class being dynamically generated above
   const closeBtn = document.querySelector('.closeBtn');
   closeBtn.addEventListener('click', () => {
     overlay.style.display = "none";
     $(employeeById).removeClass('selected');
       });
 
-// Next prev buttons
-   $('.next').click(function(){
-     var next_card = $(".image-container:visible").next(".image-container");
-     if(next_card.length != 0){
-         $(".image-container").hide();
-         next_card.show();
-     }
- });
 
- $(".prev").click(function(){
-     var prev_card = $(".image-container:visible").prev(".image-container");
-     if(prev_card.length != 0){
-         $(".image-container").hide();
-         prev_card.show();
-     }
- });
-}
+      // Next prev buttons
+      if(index <= 0 ) {
+          $('.prev').hide();
+        }
+
+        if(index === employeeById.length - 1) {
+          $('.next').hide();
+        }
+
+        $('.next').click(function () {
+          $('.prev').show();
+          if (index < employeeById.length - 1) {
+            generateModalPopup(data, index + 1);
+          } else {
+            $('.next').hide();
+          }
+        });
+
+        $(".prev").click(function () {
+          $('.next').show();
+          if (index > 0) {
+            generateModalPopup(data, index - 1);
+          } else {
+            $(".prev").hide();
+          }
+        });
+      }
